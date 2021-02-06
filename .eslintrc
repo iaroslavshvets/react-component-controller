@@ -1,0 +1,18 @@
+{
+  "extends": "yoshi",
+  "overrides": [
+    {
+      "files": ["*.spec.ts", "*.spec.tsx"],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
+  ],
+  "rules": {
+    "import/newline-after-import": "off",
+    "react/jsx-boolean-value": ["error", "always"],
+    "react/self-closing-comp": "error",
+    "react/jsx-closing-bracket-location": "error",
+    "react-hooks/exhaustive-deps": "off"
+  }
+}

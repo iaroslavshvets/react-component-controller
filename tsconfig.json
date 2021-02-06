@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext"], // TODO: investigate could we use defaults here
+    "jsx": "react",
+    "sourceMap": true,
+    "importHelpers": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "declarationMap": true,
+    "removeComments": false, // this should be false to allow webpack magic comments: https://webpack.js.org/guides/code-splitting/#prefetchingpreloading-modules
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist/"
+  },
+  "include": ["src/**/*"]
+}

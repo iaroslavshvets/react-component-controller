@@ -1,0 +1,92 @@
+{
+  "name": "react-component-controller",
+  "version": "1.0.1",
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Iaroslav Shvets",
+    "email": "iaroslavs@wix.com"
+  },
+  "description": "Controller for managing component state React applications",
+  "homepage": "https://github.com/iaroslavshvets/react-component-controller",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:iaroslavshvets/react-component-controller.git",
+    "directory": "/react-controller"
+  },
+  "main": "dist/src/index.js",
+  "module": "dist/es/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/**",
+    "src/**",
+    "statics/**"
+  ],
+  "scripts": {
+    "start": "yoshi start",
+    "build": "yoshi build",
+    "test": "npm run test:unit",
+    "test:watch": "yoshi test --watch",
+    "test:unit": "yoshi test",
+    "format": "yoshi lint --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm test"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,scss,css}": "yoshi lint --fix"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.2",
+    "@types/chai": "^4.2.14",
+    "@types/history": "^4.7.8",
+    "@types/node": "^14.14.9",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/sinon": "^9.0.9",
+    "@types/sinon-chai": "^3.2.5",
+    "chai": "^4.2.0",
+    "husky": "^4.3.0",
+    "jest-yoshi-preset": "^4.87.0",
+    "jsdom": "^16.4.0",
+    "jsdom-global": "^3.0.2",
+    "lint-staged": "^10.5.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "sinon": "^9.2.0",
+    "typescript": "^4.1.2",
+    "yoshi": "^4.87.0"
+  },
+  "sideEffects": false,
+  "jest": {
+    "preset": "jest-yoshi-preset",
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "coverageReporters": [
+      "html",
+      "text-summary"
+    ]
+  },
+  "yoshi": {
+    "entry": {
+      "index": "./index.ts"
+    },
+    "externals": {
+      "react": {
+        "commonjs": "react",
+        "commonjs2": "react",
+        "amd": "react",
+        "root": "React"
+      },
+      "react-dom": {
+        "commonjs": "react-dom",
+        "commonjs2": "react-dom",
+        "amd": "reactDOM",
+        "root": "ReactDOM"
+      }
+    }
+  }
+}
