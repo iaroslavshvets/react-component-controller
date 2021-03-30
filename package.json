@@ -1,6 +1,6 @@
 {
   "name": "react-component-controller",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "license": "UNLICENSED",
   "author": {
     "name": "Iaroslav Shvets",
@@ -13,14 +13,6 @@
     "url": "git@github.com:iaroslavshvets/react-component-controller.git",
     "directory": "/react-controller"
   },
-  "main": "dist/src/index.js",
-  "module": "dist/es/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "files": [
-    "dist/**",
-    "src/**",
-    "statics/**"
-  ],
   "scripts": {
     "start": "yoshi start",
     "build": "yoshi build",
@@ -29,6 +21,14 @@
     "test:unit": "yoshi test",
     "format": "yoshi lint --fix"
   },
+  "main": "dist/src/index.js",
+  "module": "dist/es/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/**",
+    "src/**",
+    "statics/**"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && npm test"

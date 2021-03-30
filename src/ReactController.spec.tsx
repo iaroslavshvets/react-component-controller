@@ -30,49 +30,49 @@ describe('ReactController', () => {
 
   describe('should be able to create controller outside components', () => {
     it('without props', () => {
-      interface Services {
+      interface Context {
         service: object;
       }
 
       const someMethodSpy = sinon.spy();
-      const services: Services = {service: {}};
+      const context: Context = {service: {}};
 
-      class Controller extends ReactController<Services> {
+      class Controller extends ReactController<Context> {
         someMethod = () => someMethodSpy();
       }
 
       // @ts-expect-error
-      expectTypescriptError(() => createReactController(Controller, services, {}));
+      expectTypescriptError(() => createReactController(Controller, context, {}));
 
-      const controller = createReactController(Controller, services);
+      const controller = createReactController(Controller, context);
       controller.someMethod();
 
       expect(someMethodSpy.called).to.be.true;
     });
     it('with props', () => {
-      interface Services {
+      interface Context {
         service: object;
       }
 
       const onInitSpy = sinon.spy();
       const someMethodSpy = sinon.spy();
-      const services: Services = {service: {}};
+      const context: Context = {service: {}};
 
-      class Controller extends ReactController<Services, {prop: number}> {
+      class Controller extends ReactController<Context, {prop: number}> {
         onInit = () => {};
         someMethod = someMethodSpy;
       }
 
       // @ts-expect-error
-      expectTypescriptError(() => createReactController(Controller, services));
+      expectTypescriptError(() => createReactController(Controller, context));
 
-      const controller = createReactController(Controller, services, {prop: 1});
+      const controller = createReactController(Controller, context, {prop: 1});
 
       controller.someMethod();
 
       expect(onInitSpy.called).to.be.false;
       expect(someMethodSpy.called).to.be.true;
-      expect((controller as any).services.service).to.be.eql({});
+      expect((controller as any).context.service).to.be.eql({});
       expect((controller as any).props.prop).to.be.eql(1);
     });
   });

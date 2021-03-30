@@ -7,11 +7,10 @@ type UseControllerArguments<T extends Newable> = InstanceType<T>['props'] extend
   ? [T, {children?: ReactNode; controller?: InstanceType<T>}] | [T]
   : [T, InstanceType<T>['props'] & {controller?: InstanceType<T>}];
 
-export const createHookWithContext = <S extends Context<any>>(servicesContext: S) => {
+export const createHookWithContext = <S extends Context<any>>(controllerContext: S) => {
   return function useController<T extends Newable>(...args: UseControllerArguments<T>) {
     const [ControllerClass, props = undefined] = args;
-
-    const services = useContext(servicesContext);
+    const context = useContext(controllerContext);
     const controllerRef = useRef<InstanceType<T>>();
     const initReturnRef = useRef<unknown>();
 
@@ -24,11 +23,11 @@ export const createHookWithContext = <S extends Context<any>>(servicesContext: S
         } else {
           controller = new ControllerClass();
           controller.props = props;
-          controller.services = services;
+          controller.context = context;
         }
       } else {
         controller = new ControllerClass();
-        controller.services = services;
+        controller.context = context;
       }
 
       controllerRef.current = controller;
