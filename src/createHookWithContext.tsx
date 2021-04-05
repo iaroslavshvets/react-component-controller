@@ -23,11 +23,11 @@ export const createHookWithContext = <S extends Context<any>>(controllerContext:
         } else {
           controller = new ControllerClass();
           controller.props = props;
-          controller.context = context;
+          controller.ctx = context;
         }
       } else {
         controller = new ControllerClass();
-        controller.context = context;
+        controller.ctx = context;
       }
 
       controllerRef.current = controller;

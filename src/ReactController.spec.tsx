@@ -72,7 +72,7 @@ describe('ReactController', () => {
 
       expect(onInitSpy.called).to.be.false;
       expect(someMethodSpy.called).to.be.true;
-      expect((controller as any).context.service).to.be.eql({});
+      expect((controller as any).ctx.service).to.be.eql({});
       expect((controller as any).props.prop).to.be.eql(1);
     });
   });
