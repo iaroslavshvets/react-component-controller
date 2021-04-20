@@ -100,7 +100,7 @@ describe('ReactController', () => {
       };
     }
 
-    const useController = createHookWithContext(Context);
+    const useController = createHookWithContext({ctx: Context});
 
     const ViewWithPassedAsPropController: React.FC<{
       controller: UseReactController<TestController>;
@@ -151,7 +151,7 @@ describe('ReactController', () => {
     testController.prop = 2;
 
     const Context = React.createContext(null);
-    const useController = createHookWithContext(Context);
+    const useController = createHookWithContext({ctx: Context});
 
     const ViewWithInjectedController: React.FC<{controller?: TestController}> = (props) => {
       const controller = useController(TestController, props);
