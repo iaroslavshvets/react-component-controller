@@ -3,7 +3,7 @@ export type OnDestroy = (() => void) | undefined;
 
 export interface Context {
   [key: string]: any;
-}``
+}
 
 export type NonViewAccessibleFields = 'onInit' | 'onDestroy' | 'onChange' | 'props' | 'ctx';
 

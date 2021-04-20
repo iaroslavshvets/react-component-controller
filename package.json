@@ -1,6 +1,6 @@
 {
   "name": "react-component-controller",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "license": "UNLICENSED",
   "author": {
     "name": "Iaroslav Shvets",
@@ -19,7 +19,7 @@
     "test": "npm run test:unit",
     "test:watch": "yoshi test --watch",
     "test:unit": "yoshi test",
-    "format": "yoshi lint --fix"
+    "lint": "yoshi lint --fix"
   },
   "main": "dist/src/index.js",
   "module": "dist/es/src/index.js",
