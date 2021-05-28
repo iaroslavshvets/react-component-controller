@@ -21,7 +21,7 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
       let controller: InstanceType<T>;
 
       if (props !== undefined) {
-        if ('controller' in props && props!.controller !== undefined) {
+        if ('controller' in (props as object) && props!.controller !== undefined) {
           controller = props!.controller;
         } else {
           controller = new ControllerClass();
