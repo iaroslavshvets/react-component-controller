@@ -1,3 +1,3 @@
 import {ReactController} from './ReactController';
 
-export type UseReactController<T extends any> = Omit<T, keyof ReactController>;
+export type UseController<T extends any> = Omit<T, keyof ReactController>;

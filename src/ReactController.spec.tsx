@@ -5,7 +5,7 @@ import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
 import {createReactController} from './createReactController';
 import {ReactController} from './ReactController';
-import {UseReactController} from './types';
+import {UseController} from './types';
 
 describe('ReactController', () => {
   let sinon: Sinon.SinonSandbox;
@@ -103,7 +103,7 @@ describe('ReactController', () => {
     const useController = createHookWithContext({ctx: Context});
 
     const ViewWithPassedAsPropController: React.FC<{
-      controller: UseReactController<TestController>;
+      controller: UseController<TestController>;
     }> = (props) => {
       return <span>{props.controller.prop}</span>;
     };
