@@ -4,6 +4,8 @@
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"], // TODO: investigate could we use defaults here
     "jsx": "react",
+    "noEmit": true,
+    "incremental": true,
     "sourceMap": true,
     "importHelpers": true,
     "downlevelIteration": true,
