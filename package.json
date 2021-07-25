@@ -1,6 +1,6 @@
 {
   "name": "react-component-controller",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "license": "UNLICENSED",
   "author": {
     "name": "Iaroslav Shvets",
@@ -14,11 +14,12 @@
     "directory": "/react-controller"
   },
   "scripts": {
-    "build": "yoshi-library build",
+    "start": "yoshi start",
+    "build": "yoshi build",
     "test": "npm run test:unit",
-    "test:watch": "yoshi-library test --watch",
-    "test:unit": "yoshi-library test",
-    "lint": "yoshi-library lint --fix"
+    "test:watch": "yoshi test --watch",
+    "test:unit": "yoshi test",
+    "lint": "yoshi lint --fix"
   },
   "main": "dist/src/index.js",
   "module": "dist/es/src/index.js",
@@ -37,25 +38,25 @@
     "*.{ts,tsx,js,scss,css}": "yoshi lint --fix"
   },
   "devDependencies": {
-    "@testing-library/react": "^12.0.0",
-    "@types/chai": "^4.2.21",
-    "@types/history": "^4.7.9",
-    "@types/node": "^16.4.2",
-    "@types/react": "^17.0.15",
-    "@types/react-dom": "^17.0.9",
-    "@types/sinon": "^10.0.2",
+    "@testing-library/react": "^11.2.7",
+    "@types/chai": "^4.2.18",
+    "@types/history": "^4.7.8",
+    "@types/node": "^15.6.1",
+    "@types/react": "^17.0.8",
+    "@types/react-dom": "^17.0.5",
+    "@types/sinon": "^10.0.1",
     "@types/sinon-chai": "^3.2.5",
     "chai": "^4.3.4",
-    "husky": "^7.0.1",
-    "jest-yoshi-preset": "^5.1.0",
+    "husky": "^6.0.0",
+    "jest-yoshi-preset": "^4.87.0",
     "jsdom": "^16.6.0",
     "jsdom-global": "^3.0.2",
-    "lint-staged": "^11.1.1",
+    "lint-staged": "^11.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sinon": "^11.1.1",
-    "typescript": "^4.3.5",
-    "yoshi-flow-library": "^5.1.0"
+    "typescript": "^4.3.2",
+    "yoshi": "^4.87.0"
   },
   "sideEffects": false,
   "jest": {
@@ -69,30 +70,23 @@
       "text-summary"
     ]
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "versionBumpStrategy": "patch"
-  },
-  "yoshiFlowLibrary": {
-    "bundle": {
-      "entry": {
-        "index": "./index.ts"
+  "yoshi": {
+    "entry": {
+      "index": "./index.ts"
+    },
+    "externals": {
+      "react": {
+        "commonjs": "react",
+        "commonjs2": "react",
+        "amd": "react",
+        "root": "React"
       },
-      "externals": {
-        "react": {
-          "commonjs": "react",
-          "commonjs2": "react",
-          "amd": "react",
-          "root": "React"
-        },
-        "react-dom": {
-          "commonjs": "react-dom",
-          "commonjs2": "react-dom",
-          "amd": "reactDOM",
-          "root": "ReactDOM"
-        }
+      "react-dom": {
+        "commonjs": "react-dom",
+        "commonjs2": "react-dom",
+        "amd": "reactDOM",
+        "root": "ReactDOM"
       }
     }
-  },
-  "dependencies": {}
+  }
 }
