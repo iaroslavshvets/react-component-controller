@@ -56,17 +56,11 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
       [],
     );
 
-    useEffect(
-      /* update controller with new component props */ () => {
-        if (controllerRef.current) {
-          if (updateWrapper) {
-            updateWrapper(() => controllerRef.current!.props = props)
-          } else {
-            controllerRef.current.props = props;
-          }
-        }
-      },
-    );
+    if (updateWrapper) {
+      updateWrapper(() => controllerRef.current!.props = props)
+    } else {
+      controllerRef.current!.props = props;
+    }
 
     return controllerRef.current as ReactControllerWithoutPrivateFields<InstanceType<T>>;
   };

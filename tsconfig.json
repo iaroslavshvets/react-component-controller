@@ -8,7 +8,6 @@
       "esnext"
     ],
     "jsx": "react",
-    "noEmit": true,
     "incremental": true,
     "sourceMap": true,
     "importHelpers": true,
@@ -27,13 +26,11 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist/esm",
-    "rootDir": "src",
-    "declarationDir": "dist/types"
+    "outDir": "dist/es",
+    "rootDir": "src"
   },
   "include": [
-    "src/**/*",
-    "src"
+    "./src/**/*"
   ],
   "compileOnSave": false
 }

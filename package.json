@@ -1,6 +1,6 @@
 {
   "name": "react-component-controller",
-  "version": "6.0.4",
+  "version": "8.1.0",
   "license": "UNLICENSED",
   "author": {
     "name": "Iaroslav Shvets",
@@ -38,25 +38,25 @@
     "*.{ts,tsx,js,scss,css}": "yoshi lint --fix"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.7",
-    "@types/chai": "^4.2.18",
+    "@testing-library/react": "^12.1.0",
+    "@types/chai": "^4.2.22",
     "@types/history": "^4.7.8",
-    "@types/node": "^15.6.1",
-    "@types/react": "^17.0.8",
+    "@types/node": "^16.9.6",
+    "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.5",
-    "@types/sinon": "^10.0.1",
+    "@types/sinon": "^10.0.3",
     "@types/sinon-chai": "^3.2.5",
     "chai": "^4.3.4",
-    "husky": "^6.0.0",
+    "husky": "^7.0.2",
     "jest-yoshi-preset": "^4.87.0",
-    "jsdom": "^16.6.0",
+    "jsdom": "^17.0.0",
     "jsdom-global": "^3.0.2",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sinon": "^11.1.1",
-    "typescript": "^4.3.2",
-    "yoshi": "^4.87.0"
+    "sinon": "^11.1.2",
+    "typescript": "^4.4.3",
+    "@wix/yoshi": "^4.318.0"
   },
   "sideEffects": false,
   "jest": {
