@@ -78,23 +78,24 @@ describe('ReactController', () => {
   });
 
   it('should render React.FC with props', () => {
-    const testPropValue = 'test-property';
     const clickSpy = sinon.spy();
     const onDestroySpy = sinon.spy();
     const testViewPropSpy = sinon.spy();
 
     interface TestViwProps {
       testProp: SinonSpy;
+      someOtherProp: () => string;
     }
 
     const Context = React.createContext(null);
 
     class TestController extends ReactController<typeof Context, TestViwProps> {
+      reMappedProp = this.props.someOtherProp();
       onInit = () => {
         this.props.testProp();
       };
       onDestroy = onDestroySpy;
-      prop = testPropValue;
+      prop = 'test-property';
       method = () => {
         clickSpy();
       };
@@ -108,29 +109,37 @@ describe('ReactController', () => {
       return <span>{props.controller.prop}</span>;
     };
 
+    class TestErrorController extends ReactController<typeof Context, TestViwProps> {}
+
     const ViewWithController: React.FC<TestViwProps> = (props) => {
       // @ts-expect-error
-      expectTypescriptError(() => useController(TestController)); // eslint-disable-line
+      expectTypescriptError(() => useController(TestErrorController)); // eslint-disable-line
 
       const controller = useController(TestController, props);
 
       return (
         <>
           <span onClick={controller.method} data-hook="controller">
-            {controller.prop}
+            <span data-hook="prop">{controller.prop}</span>
+            <span data-hook="re-mapped-prop">{controller.reMappedProp}</span>
           </span>
           <ViewWithPassedAsPropController controller={controller} />
         </>
       );
     };
 
-    const component = render(<ViewWithController testProp={testViewPropSpy} />);
+    const component = render(<ViewWithController testProp={testViewPropSpy} someOtherProp={() => 'someOtherValue'} />);
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller"]`);
 
     expect(testViewPropSpy.callCount).to.equal(1);
 
-    expect(controllerElement && controllerElement.innerHTML).to.equal(testPropValue);
+    expect(controllerElement && controllerElement.querySelector(`[data-hook="prop"]`)!.innerHTML).to.equal(
+      'test-property',
+    );
+    expect(controllerElement && controllerElement.querySelector(`[data-hook="re-mapped-prop"]`)!.innerHTML).to.equal(
+      'someOtherValue',
+    );
 
     controllerElement && fireEvent.click(controllerElement);
 

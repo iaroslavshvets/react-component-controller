@@ -15,4 +15,13 @@ export abstract class ReactController<S extends Context = {}, P extends Object =
 
   onDestroy: OnDestroy = () => undefined;
   onInit: OnInit = () => undefined;
+
+  constructor(ctx?: S, props?: P) {
+    if (ctx) {
+      this.ctx = ctx;
+    }
+    if (props) {
+      this.props = props;
+    }
+  }
 }

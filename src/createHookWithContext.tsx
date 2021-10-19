@@ -24,12 +24,12 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
         if ('controller' in (props as object) && props!.controller !== undefined) {
           controller = props!.controller;
         } else {
-          controller = new ControllerClass();
+          controller = new ControllerClass(context, props);
           controller.props = props;
           controller.ctx = context;
         }
       } else {
-        controller = new ControllerClass();
+        controller = new ControllerClass(context);
         controller.ctx = context;
       }
 
