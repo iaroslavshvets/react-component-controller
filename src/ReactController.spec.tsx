@@ -5,7 +5,8 @@ import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
 import {createReactController} from './createReactController';
 import {ReactController} from './ReactController';
-import {UseController} from './types';
+import {UseController, WithController} from './types';
+import {createWithControllerDecorator} from '.';
 
 describe('ReactController', () => {
   let sinon: Sinon.SinonSandbox;
@@ -75,6 +76,40 @@ describe('ReactController', () => {
       expect((controller as any).ctx.service).to.be.eql({});
       expect((controller as any).props.prop).to.be.eql(1);
     });
+  });
+
+  it('should render React.Component with props', () => {
+    const Context = React.createContext(null);
+    const useController = createHookWithContext({ctx: Context});
+    const withController = createWithControllerDecorator(useController);
+
+    const testViewCallback = sinon.spy();
+
+    type TestViewProps = WithController<TestController> & {
+      callback: () => void;
+    };
+
+    class TestController extends ReactController<typeof Context, TestViewProps> {
+      controllerProp = 'controllerPropValue';
+      onInit = () => {
+        this.props.callback();
+      };
+    }
+
+    @withController(TestController)
+    class TestView extends React.Component<TestViewProps> {
+      render() {
+        // @ts-expect-error
+        return <span data-hook="prop">{this.props.controller.controllerProp}</span>
+      }
+    }
+
+    const component = render(<TestView callback={testViewCallback} />);
+    const element = component.baseElement;
+    const propElement = element.querySelector(`[data-hook="prop"]`);
+
+    expect(propElement?.innerHTML).to.equal('controllerPropValue')
+    expect(testViewCallback.callCount).to.equal(1);
   });
 
   it('should render React.FC with props', () => {
