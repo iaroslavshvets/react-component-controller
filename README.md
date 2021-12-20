@@ -9,7 +9,7 @@ Component can hold state of something like dropdown is open or not via `React.us
 If it returns function, it will be called upon component unmount.
 This unmount callback can be explicitly described in `onDestroy` optional function.
 
-* what was passed as argument for `createHookWithContext` will be accessible as `this.services` inside controller class.
+* what was passed as argument for `createHookWithContext` will be accessible as `this.ctx` inside controller class.
   usually the result of it is exported and used as `useController()` React hook later.
 
 * if props needed, pass them as 2-nd argument to `useController(ComponentController, props)`. They will be accessible as `this.props`.
@@ -26,7 +26,7 @@ This unmount callback can be explicitly described in `onDestroy` optional functi
 export class ComponentController extends Controller {
   @observable someProp: number;
   onInit = () => {
-    this.services.appStore.someFunction();
+    this.ctx.appStore.someFunction();
     runInAction(() => this.someProp = 1);
   };
 }
