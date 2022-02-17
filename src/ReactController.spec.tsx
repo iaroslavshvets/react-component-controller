@@ -22,7 +22,7 @@ describe('ReactController', () => {
   it('should prevent using untyped props', () => {
     // @ts-ignore-line
     class TypeTest extends ReactController {
-      onInit = () => {
+      onInit() {
         // @ts-expect-error
         expectTypescriptError(() => this.props.testProp);
       };

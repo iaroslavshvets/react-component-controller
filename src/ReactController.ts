@@ -1,6 +1,3 @@
-export type OnInit = (() => void) | (() => Promise<void>) | undefined;
-export type OnDestroy = (() => void) | undefined;
-
 export interface Context {
   [key: string]: any;
 }
@@ -13,8 +10,12 @@ export abstract class ReactController<S extends Context = {}, P extends Object =
   readonly ctx: S = undefined as any;
   readonly props: P = undefined as any;
 
-  onDestroy: OnDestroy = () => undefined;
-  onInit: OnInit = () => undefined;
+  onDestroy(): Promise<void> | void {
+    return undefined;
+  };
+  onInit(): Promise<void> | void {
+    return undefined;
+  };
 
   constructor(ctx?: S, props?: P) {
     if (ctx) {
