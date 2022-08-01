@@ -10,10 +10,10 @@ export abstract class ReactController<S extends Context = {}, P extends Object =
   readonly ctx: S = undefined as any;
   readonly props: P = undefined as any;
 
-  onDestroy(): Promise<void> | void {
+  onDestroy(): unknown {
     return undefined;
   };
-  onInit(): Promise<void> | void {
+  onInit(): unknown {
     return undefined;
   };
 
