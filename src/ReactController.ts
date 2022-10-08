@@ -2,7 +2,7 @@ export interface Context {
   [key: string]: any;
 }
 
-export type NonViewAccessibleFields = 'onInit' | 'onDestroy' | 'onChange' | 'props' | 'ctx';
+export type NonViewAccessibleFields = 'onInit' | 'onDestroy' | 'props' | 'ctx';
 
 export type ReactControllerWithoutPrivateFields<T> = Omit<T, NonViewAccessibleFields>;
 
