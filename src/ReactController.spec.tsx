@@ -25,7 +25,7 @@ describe('ReactController', () => {
       onInit() {
         // @ts-expect-error
         expectTypescriptError(() => this.props.testProp);
-      };
+      }
     }
   });
 
@@ -100,7 +100,7 @@ describe('ReactController', () => {
     class TestView extends React.Component<TestViewProps> {
       render() {
         // @ts-expect-error
-        return <span data-hook="prop">{this.props.controller.controllerProp}</span>
+        return <span data-hook="prop">{this.props.controller.controllerProp}</span>;
       }
     }
 
@@ -108,7 +108,7 @@ describe('ReactController', () => {
     const element = component.baseElement;
     const propElement = element.querySelector(`[data-hook="prop"]`);
 
-    expect(propElement?.innerHTML).to.equal('controllerPropValue')
+    expect(propElement?.innerHTML).to.equal('controllerPropValue');
     expect(testViewCallback.callCount).to.equal(1);
   });
 

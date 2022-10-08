@@ -1,10 +1,10 @@
-import {Newable} from './typings/internals';
+import {ReactControllerGenericType} from './types';
 
-type CreateReactControllerArguments<T extends Newable> = InstanceType<T>['props'] extends never
+type CreateReactControllerArguments<T extends ReactControllerGenericType> = InstanceType<T>['props'] extends never
   ? [T, InstanceType<T>['ctx']]
   : [T, InstanceType<T>['ctx'], InstanceType<T>['props']];
 
-export const createReactController = <T extends Newable>(...args: CreateReactControllerArguments<T>) => {
+export const createReactController = <T extends ReactControllerGenericType>(...args: CreateReactControllerArguments<T>) => {
   const [Controller, context, maybeProps] = args;
   const controller = new Controller();
 

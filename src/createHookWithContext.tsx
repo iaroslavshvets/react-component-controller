@@ -1,9 +1,9 @@
 import {Context, ReactNode, useContext, useEffect, useRef} from 'react';
 import {ReactControllerWithoutPrivateFields} from './ReactController';
 import {useRunOnce} from './useRunOnce';
-import {Newable} from "./typings/internals";
+import {ReactControllerGenericType} from './types';
 
-type UseControllerArguments<T extends Newable> = InstanceType<T>['props'] extends never
+export type UseControllerArguments<T extends ReactControllerGenericType> = InstanceType<T>['props'] extends never
   ? [T, {children?: ReactNode; controller?: InstanceType<T>}] | [T]
   : [T, InstanceType<T>['props'] & {controller?: InstanceType<T>}];
 
@@ -11,7 +11,7 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
   ctx: S;
   updateWrapper?: Function
 }) => {
-  return function useController<T extends Newable>(...args: UseControllerArguments<T>) {
+  return function useController<T extends ReactControllerGenericType>(...args: UseControllerArguments<T>) {
     const [ControllerClass, props = undefined] = args;
     const context = useContext(ctx);
     const controllerRef = useRef<InstanceType<T>>();

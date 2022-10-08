@@ -12,10 +12,10 @@ export abstract class ReactController<S extends Context = {}, P extends Object =
 
   onDestroy(): unknown {
     return undefined;
-  };
+  }
   onInit(): unknown {
     return undefined;
-  };
+  }
 
   constructor(ctx?: S, props?: P) {
     if (ctx) {
