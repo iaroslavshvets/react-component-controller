@@ -1316,17 +1316,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.2.5":
   version: 20.2.5
   resolution: "@types/node@npm:20.2.5"
   checksum: 1c3db8a4ceb5e5d12e7cb140e37c14a16ce013084c6d65579b91cefbe0ecaca57d85093d968172b11c3d1d95bcbc5d972b08aa3dc3935206fb39bc6c10751102
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^17.0.45":
-  version: 17.0.45
-  resolution: "@types/node@npm:17.0.45"
-  checksum: 0db377133d709b33a47892581a21a41cd7958f22723a3cc6c71d55ac018121382de42fbfc7970d5ae3e7819dbe5f40e1c6a5174aedf7e7964e9cb8fa72b580b0
   languageName: node
   linkType: hard
 
@@ -5983,7 +5976,7 @@ __metadata:
     "@types/chai": ^4.3.5
     "@types/hoist-non-react-statics": ^3.3.1
     "@types/jest": ^29.5.2
-    "@types/node": ^17.0.45
+    "@types/node": ^20.2.5
     "@types/react": ^17.0.60
     "@types/react-dom": ^17.0.20
     "@types/sinon": ^10.0.15
