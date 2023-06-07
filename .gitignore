@@ -6,3 +6,6 @@ coverage
 .idea
 *.iml
 .DS_Store
+.yarn/install-state.gz
+/.rollup.cache/
+/build-stats.html

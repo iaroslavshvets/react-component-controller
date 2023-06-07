@@ -1,9 +1,10 @@
 import {Context, ReactNode, useContext, useEffect, useRef} from 'react';
 import {ReactControllerWithoutPrivateFields} from './ReactController';
 import {useRunOnce} from './useRunOnce';
-import {ReactControllerGenericType} from './types';
 
-export type UseControllerArguments<T extends ReactControllerGenericType> = InstanceType<T>['props'] extends never
+type Newable = new (...args: any[]) => any;
+
+export type UseControllerArguments<T extends Newable> = InstanceType<T>['props'] extends never
   ? [T, {children?: ReactNode; controller?: InstanceType<T>}] | [T]
   : [T, InstanceType<T>['props'] & {controller?: InstanceType<T>}];
 
@@ -11,7 +12,7 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
   ctx: S;
   updateWrapper?: Function
 }) => {
-  return function useController<T extends ReactControllerGenericType>(...args: UseControllerArguments<T>) {
+  return function useController<T extends Newable>(...args: UseControllerArguments<T>) {
     const [ControllerClass, props = undefined] = args;
     const context = useContext(ctx);
     const controllerRef = useRef<InstanceType<T>>();
@@ -21,7 +22,7 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
       let controller: InstanceType<T>;
 
       if (props !== undefined) {
-        if ('controller' in (props as object) && props!.controller !== undefined) {
+        if ('controller' in props && props!.controller !== undefined) {
           controller = props!.controller;
         } else {
           controller = new ControllerClass(context, props);
@@ -57,7 +58,9 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
     );
 
     if (updateWrapper) {
-      updateWrapper(() => controllerRef.current!.props = props)
+      updateWrapper(() => {
+        controllerRef.current!.props = props;
+      })
     } else {
       controllerRef.current!.props = props;
     }

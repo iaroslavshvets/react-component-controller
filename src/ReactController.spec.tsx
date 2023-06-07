@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import {createHookWithContext} from './createHookWithContext';
 import Sinon, {SinonSpy} from 'sinon';
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
+import {createHookWithContext} from './createHookWithContext';
 import {createReactController} from './createReactController';
 import {ReactController} from './ReactController';
 import {UseController, WithController} from './types';
@@ -16,7 +16,9 @@ describe('ReactController', () => {
     } catch {}
   };
 
-  beforeEach(() => (sinon = Sinon.createSandbox()));
+  beforeEach(() => {
+    sinon = Sinon.createSandbox()
+  });
   afterEach(() => sinon.restore());
 
   it('should prevent using untyped props', () => {
@@ -39,7 +41,9 @@ describe('ReactController', () => {
       const context: Context = {service: {}};
 
       class Controller extends ReactController<Context> {
-        someMethod = () => someMethodSpy();
+        someMethod = () => {
+          someMethodSpy();
+        };
       }
 
       // @ts-expect-error
@@ -61,6 +65,7 @@ describe('ReactController', () => {
 
       class Controller extends ReactController<Context, {prop: number}> {
         onInit = () => {};
+
         someMethod = someMethodSpy;
       }
 
@@ -91,6 +96,7 @@ describe('ReactController', () => {
 
     class TestController extends ReactController<typeof Context, TestViewProps> {
       controllerProp = 'controllerPropValue';
+
       onInit = () => {
         this.props.callback();
       };
@@ -100,7 +106,8 @@ describe('ReactController', () => {
     class TestView extends React.Component<TestViewProps> {
       render() {
         // @ts-expect-error
-        return <span data-hook="prop">{this.props.controller.controllerProp}</span>;
+        const {controllerProp} = this.props.controller;
+        return <span data-hook="prop">{controllerProp}</span>;
       }
     }
 
@@ -112,7 +119,7 @@ describe('ReactController', () => {
     expect(testViewCallback.callCount).to.equal(1);
   });
 
-  it('should render React.FC with props', () => {
+  it('should render React functional component with props', () => {
     const clickSpy = sinon.spy();
     const onDestroySpy = sinon.spy();
     const testViewPropSpy = sinon.spy();
@@ -126,11 +133,15 @@ describe('ReactController', () => {
 
     class TestController extends ReactController<typeof Context, TestViwProps> {
       reMappedProp = this.props.someOtherProp();
+
       onInit = () => {
         this.props.testProp();
       };
+
       onDestroy = onDestroySpy;
+
       prop = 'test-property';
+
       method = () => {
         clickSpy();
       };
@@ -138,15 +149,15 @@ describe('ReactController', () => {
 
     const useController = createHookWithContext({ctx: Context});
 
-    const ViewWithPassedAsPropController: React.FC<{
+    const ViewWithPassedAsPropController = (props: {
       controller: UseController<TestController>;
-    }> = (props) => {
+    }) => {
       return <span>{props.controller.prop}</span>;
     };
 
     class TestErrorController extends ReactController<typeof Context, TestViwProps> {}
 
-    const ViewWithController: React.FC<TestViwProps> = (props) => {
+    const ViewWithController = (props: TestViwProps) => {
       // @ts-expect-error
       expectTypescriptError(() => useController(TestErrorController)); // eslint-disable-line
 
@@ -176,7 +187,9 @@ describe('ReactController', () => {
       'someOtherValue',
     );
 
-    controllerElement && fireEvent.click(controllerElement);
+    if (controllerElement) {
+      fireEvent.click(controllerElement)
+    };
 
     expect(clickSpy.callCount).to.equal(1);
 
@@ -197,7 +210,7 @@ describe('ReactController', () => {
     const Context = React.createContext(null);
     const useController = createHookWithContext({ctx: Context});
 
-    const ViewWithInjectedController: React.FC<{controller?: TestController}> = (props) => {
+    const ViewWithInjectedController = (props: {controller?: TestController}) => {
       const controller = useController(TestController, props);
       return <span data-hook="controller-prop">{controller.prop}</span>;
     };

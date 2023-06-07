@@ -8,11 +8,15 @@ export type ReactControllerWithoutPrivateFields<T> = Omit<T, NonViewAccessibleFi
 
 export abstract class ReactController<S extends Context = {}, P extends Object = never> {
   readonly ctx: S = undefined as any;
+
   readonly props: P = undefined as any;
 
+  // eslint-disable-next-line class-methods-use-this
   onDestroy(): unknown {
     return undefined;
   }
+
+  // eslint-disable-next-line class-methods-use-this
   onInit(): unknown {
     return undefined;
   }
