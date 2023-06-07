@@ -19,7 +19,7 @@ export const createWithControllerDecorator = (controllerHook: ReturnType<typeof 
       WithController.displayName = `withController(${WrappedComponent.displayName || WrappedComponent.name})`;
       WithController.WrappedComponent = WrappedComponent;
 
-      hostNonReactStatics(WithController, WrappedComponent);
+      hostNonReactStatics(WithController as any, WrappedComponent);
 
       return WithController;
     };
