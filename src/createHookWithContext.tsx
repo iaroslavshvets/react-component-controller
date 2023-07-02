@@ -8,9 +8,12 @@ export type UseControllerArguments<T extends Newable> = InstanceType<T>['props']
   ? [T, {children?: ReactNode; controller?: InstanceType<T>}] | [T]
   : [T, InstanceType<T>['props'] & {controller?: InstanceType<T>}];
 
-export const createHookWithContext = <S extends Context<any>>({ctx, updateWrapper}: {
+export const createHookWithContext = <S extends Context<any>>({
+  ctx,
+  updateWrapper,
+}: {
   ctx: S;
-  updateWrapper?: Function
+  updateWrapper?: Function;
 }) => {
   return function useController<T extends Newable>(...args: UseControllerArguments<T>) {
     const [ControllerClass, props = undefined] = args;
@@ -49,8 +52,17 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
           if (controllerRef.current) {
             if (typeof initReturnRef.current === 'function') {
               initReturnRef.current();
-            } else if (initReturnRef.current instanceof Promise) {
-              initReturnRef.current?.then((destroy) => destroy?.());
+            } else if (
+              typeof initReturnRef.current === 'object' &&
+              initReturnRef.current !== null &&
+              'then' in initReturnRef.current &&
+              typeof initReturnRef.current.then === 'function'
+            ) {
+              initReturnRef.current?.then((destroy: unknown) => {
+                if (destroy && typeof destroy === 'function') {
+                  destroy();
+                }
+              });
             }
             controllerRef.current.onDestroy();
           }
@@ -63,12 +75,11 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
       if (updateWrapper) {
         updateWrapper(() => {
           controllerRef.current!.props = props;
-        })
+        });
       } else {
         controllerRef.current.props = props;
       }
     }
-
 
     return controllerRef.current as ReactControllerWithoutPrivateFields<InstanceType<T>>;
   };

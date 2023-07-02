@@ -1,6 +1,6 @@
 {
   "name": "react-component-controller",
-  "version": "11.4.2",
+  "version": "11.4.3",
   "license": "UNLICENSED",
   "author": {
     "name": "Iaroslav Shvets",
@@ -66,6 +66,7 @@
     "jest-cli": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^3.25.1",

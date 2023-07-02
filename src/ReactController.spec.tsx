@@ -17,7 +17,7 @@ describe('ReactController', () => {
   };
 
   beforeEach(() => {
-    sinon = Sinon.createSandbox()
+    sinon = Sinon.createSandbox();
   });
   afterEach(() => sinon.restore());
 
@@ -138,7 +138,7 @@ describe('ReactController', () => {
       onInit = async () => {
         this.props.testProp();
         return () => {
-          onInitDestroyCallbackSpy()
+          onInitDestroyCallbackSpy();
         };
       };
 
@@ -153,9 +153,7 @@ describe('ReactController', () => {
 
     const useController = createHookWithContext({ctx: Context});
 
-    const ViewWithPassedAsPropController = (props: {
-      controller: UseController<TestController>;
-    }) => {
+    const ViewWithPassedAsPropController = (props: {controller: UseController<TestController>}) => {
       return <span>{props.controller.prop}</span>;
     };
 
@@ -192,7 +190,7 @@ describe('ReactController', () => {
     );
 
     if (controllerElement) {
-      fireEvent.click(controllerElement)
+      fireEvent.click(controllerElement);
     }
 
     expect(clickSpy.callCount).to.equal(1);
@@ -208,11 +206,7 @@ describe('ReactController', () => {
         expect(onInitDestroyCallbackSpy.callCount).to.equal(1);
         resolve();
       }, 0); // wait a tick
-    })
-
-
-
-
+    });
   });
 
   it('with injected controller', () => {
