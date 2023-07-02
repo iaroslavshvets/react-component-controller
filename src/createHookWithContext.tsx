@@ -50,7 +50,7 @@ export const createHookWithContext = <S extends Context<any>>({ctx, updateWrappe
             if (typeof initReturnRef.current === 'function') {
               initReturnRef.current();
             } else if (initReturnRef.current instanceof Promise) {
-              initReturnRef.current.then((destroy) => destroy());
+              initReturnRef.current?.then((destroy) => destroy?.());
             }
             controllerRef.current.onDestroy();
           }

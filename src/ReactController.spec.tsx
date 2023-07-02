@@ -119,7 +119,7 @@ describe('ReactController', () => {
     expect(testViewCallback.callCount).to.equal(1);
   });
 
-  it.only('should render React functional component with props', async () => {
+  it('should render React functional component with props', async () => {
     const clickSpy = sinon.spy();
     const onDestroySpy = sinon.spy();
     const onInitDestroyCallbackSpy = sinon.spy();
