@@ -119,9 +119,10 @@ describe('ReactController', () => {
     expect(testViewCallback.callCount).to.equal(1);
   });
 
-  it('should render React functional component with props', () => {
+  it.only('should render React functional component with props', async () => {
     const clickSpy = sinon.spy();
     const onDestroySpy = sinon.spy();
+    const onInitDestroyCallbackSpy = sinon.spy();
     const testViewPropSpy = sinon.spy();
 
     interface TestViwProps {
@@ -134,8 +135,11 @@ describe('ReactController', () => {
     class TestController extends ReactController<typeof Context, TestViwProps> {
       reMappedProp = this.props.someOtherProp();
 
-      onInit = () => {
+      onInit = async () => {
         this.props.testProp();
+        return () => {
+          onInitDestroyCallbackSpy()
+        };
       };
 
       onDestroy = onDestroySpy;
@@ -189,7 +193,7 @@ describe('ReactController', () => {
 
     if (controllerElement) {
       fireEvent.click(controllerElement)
-    };
+    }
 
     expect(clickSpy.callCount).to.equal(1);
 
@@ -198,6 +202,17 @@ describe('ReactController', () => {
     component.unmount();
 
     expect(onDestroySpy.callCount).to.equal(1);
+
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        expect(onInitDestroyCallbackSpy.callCount).to.equal(1);
+        resolve();
+      }, 0); // wait a tick
+    })
+
+
+
+
   });
 
   it('with injected controller', () => {
