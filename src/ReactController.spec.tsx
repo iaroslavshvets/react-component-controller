@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import Sinon, {SinonSpy} from 'sinon';
-import React from 'react';
+import React, {StrictMode} from 'react';
 import {render, fireEvent} from '@testing-library/react';
 import {createHookWithContext} from './createHookWithContext';
 import {createReactController} from './createReactController';
@@ -13,7 +13,9 @@ describe('ReactController', () => {
   const expectTypescriptError = (a: () => unknown) => {
     try {
       a();
-    } catch {}
+    } catch {
+      /* empty */
+    }
   };
 
   beforeEach(() => {
@@ -111,12 +113,16 @@ describe('ReactController', () => {
       }
     }
 
-    const component = render(<TestView callback={testViewCallback} />);
+    const component = render(
+      <StrictMode>
+        <TestView callback={testViewCallback} />
+      </StrictMode>,
+    );
     const element = component.baseElement;
     const propElement = element.querySelector(`[data-hook="prop"]`);
 
     expect(propElement?.innerHTML).to.equal('controllerPropValue');
-    expect(testViewCallback.callCount).to.equal(1);
+    expect(testViewCallback.callCount).to.equal(2);
   });
 
   it('should render React functional component with props', async () => {
@@ -142,7 +148,9 @@ describe('ReactController', () => {
         };
       };
 
-      onDestroy = onDestroySpy;
+      onDestroy = () => {
+        onDestroySpy();
+      };
 
       prop = 'test-property';
 
@@ -153,8 +161,8 @@ describe('ReactController', () => {
 
     const useController = createHookWithContext({ctx: Context});
 
-    const ViewWithPassedAsPropController = (props: {controller: UseController<TestController>}) => {
-      return <span>{props.controller.prop}</span>;
+    const ViewWithPassedAsPropController = ({controller}: {controller: UseController<TestController>}) => {
+      return <span>{controller.prop}</span>;
     };
 
     class TestErrorController extends ReactController<typeof Context, TestViwProps> {}
@@ -176,11 +184,16 @@ describe('ReactController', () => {
       );
     };
 
-    const component = render(<ViewWithController testProp={testViewPropSpy} someOtherProp={() => 'someOtherValue'} />);
+    const component = render(
+      <StrictMode>
+        <ViewWithController testProp={testViewPropSpy} someOtherProp={() => 'someOtherValue'} />
+      </StrictMode>,
+    );
+
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller"]`);
 
-    expect(testViewPropSpy.callCount).to.equal(1);
+    expect(testViewPropSpy.callCount).to.equal(2);
 
     expect(controllerElement && controllerElement.querySelector(`[data-hook="prop"]`)!.innerHTML).to.equal(
       'test-property',
@@ -195,17 +208,17 @@ describe('ReactController', () => {
 
     expect(clickSpy.callCount).to.equal(1);
 
-    expect(onDestroySpy.callCount).to.equal(0);
+    expect(onDestroySpy.callCount).to.equal(1);
 
     component.unmount();
 
-    expect(onDestroySpy.callCount).to.equal(1);
+    expect(onDestroySpy.callCount).to.equal(2);
 
     await new Promise<void>((resolve) => {
-      setTimeout(() => {
-        expect(onInitDestroyCallbackSpy.callCount).to.equal(1);
+      process.nextTick(() => {
+        expect(onInitDestroyCallbackSpy.callCount).to.equal(2);
         resolve();
-      }, 0); // wait a tick
+      });
     });
   });
 
@@ -224,7 +237,11 @@ describe('ReactController', () => {
       return <span data-hook="controller-prop">{controller.prop}</span>;
     };
 
-    const component = render(<ViewWithInjectedController controller={testController} />);
+    const component = render(
+      <StrictMode>
+        <ViewWithInjectedController controller={testController} />
+      </StrictMode>,
+    );
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller-prop"]`);
 

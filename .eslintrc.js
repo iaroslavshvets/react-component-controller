@@ -33,5 +33,6 @@ module.exports = {
     "react/jsx-boolean-value": "off",
     "arrow-body-style": "off",
     "react/function-component-definition": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
   }
 }
