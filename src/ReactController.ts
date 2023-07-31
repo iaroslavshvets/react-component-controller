@@ -4,7 +4,7 @@ export type NonViewAccessibleFields = 'onInit' | 'onDestroy' | 'props' | 'ctx';
 
 export type ReactControllerWithoutPrivateFields<T> = Omit<T, NonViewAccessibleFields>;
 
-export abstract class ReactController<C extends Context = {}, P extends Object = never> {
+export abstract class ReactController<C extends Context = object, P extends object = never> {
   readonly ctx: C = undefined as any;
 
   readonly props: P = undefined as any;

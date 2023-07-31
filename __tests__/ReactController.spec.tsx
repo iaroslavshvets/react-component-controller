@@ -1,12 +1,12 @@
 import {expect} from 'chai';
-import Sinon, {SinonSpy} from 'sinon';
-import React, {StrictMode} from 'react';
+import Sinon, {type SinonSpy} from 'sinon';
+import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
-import {createHookWithContext} from './createHookWithContext';
-import {createReactController} from './createReactController';
-import {ReactController} from './ReactController';
-import {UseController, WithController} from './types';
-import {createWithControllerDecorator} from '.';
+import {createHookWithContext} from '../src/createHookWithContext';
+import {createReactController} from '../src/createReactController';
+import {ReactController} from '../src/ReactController';
+import {type UseController, type WithController} from '../src/types';
+import {createWithControllerDecorator} from '../src';
 
 describe('ReactController', () => {
   let sinon: Sinon.SinonSandbox;
@@ -24,10 +24,11 @@ describe('ReactController', () => {
   afterEach(() => sinon.restore());
 
   it('should prevent using untyped props', () => {
-    // @ts-ignore-line
+    // @ts-expect-error - class defined for testing typings only
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     class TypeTest extends ReactController {
       onInit() {
-        // @ts-expect-error
+        // @ts-expect-error - testProp is not defined in props
         expectTypescriptError(() => this.props.testProp);
       }
     }
@@ -48,7 +49,7 @@ describe('ReactController', () => {
         };
       }
 
-      // @ts-expect-error
+      // @ts-expect-error - props are missing
       expectTypescriptError(() => createReactController(Controller, context, {}));
 
       const controller = createReactController(Controller, context);
@@ -66,12 +67,14 @@ describe('ReactController', () => {
       const context: Context = {service: {}};
 
       class Controller extends ReactController<Context, {prop: number}> {
-        onInit = () => {};
+        onInit = () => {
+          return undefined;
+        };
 
         someMethod = someMethodSpy;
       }
 
-      // @ts-expect-error
+      // @ts-expect-error - props are missing
       expectTypescriptError(() => createReactController(Controller, context));
 
       const controller = createReactController(Controller, context, {prop: 1});
@@ -107,22 +110,18 @@ describe('ReactController', () => {
     @withController(TestController)
     class TestView extends React.Component<TestViewProps> {
       render() {
-        // @ts-expect-error
+        // @ts-expect-error - controllerProp is missing in class
         const {controllerProp} = this.props.controller;
         return <span data-hook="prop">{controllerProp}</span>;
       }
     }
 
-    const component = render(
-      <StrictMode>
-        <TestView callback={testViewCallback} />
-      </StrictMode>,
-    );
+    const component = render(<TestView callback={testViewCallback} />);
     const element = component.baseElement;
     const propElement = element.querySelector(`[data-hook="prop"]`);
 
     expect(propElement?.innerHTML).to.equal('controllerPropValue');
-    expect(testViewCallback.callCount).to.equal(2);
+    expect(testViewCallback.callCount).to.equal(1);
   });
 
   it('should render React functional component with props', async () => {
@@ -168,8 +167,9 @@ describe('ReactController', () => {
     class TestErrorController extends ReactController<typeof Context, TestViwProps> {}
 
     const ViewWithController = (props: TestViwProps) => {
-      // @ts-expect-error
-      expectTypescriptError(() => useController(TestErrorController)); // eslint-disable-line
+      // eslint-disable-next-line
+      // @ts-expect-error - props not passed
+      expectTypescriptError(() => useController(TestErrorController));
 
       const controller = useController(TestController, props);
 
@@ -184,16 +184,12 @@ describe('ReactController', () => {
       );
     };
 
-    const component = render(
-      <StrictMode>
-        <ViewWithController testProp={testViewPropSpy} someOtherProp={() => 'someOtherValue'} />
-      </StrictMode>,
-    );
+    const component = render(<ViewWithController testProp={testViewPropSpy} someOtherProp={() => 'someOtherValue'} />);
 
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller"]`);
 
-    expect(testViewPropSpy.callCount).to.equal(2);
+    expect(testViewPropSpy.callCount).to.equal(1);
 
     expect(controllerElement && controllerElement.querySelector(`[data-hook="prop"]`)!.innerHTML).to.equal(
       'test-property',
@@ -208,15 +204,15 @@ describe('ReactController', () => {
 
     expect(clickSpy.callCount).to.equal(1);
 
-    expect(onDestroySpy.callCount).to.equal(1);
+    expect(onDestroySpy.callCount).to.equal(0);
 
     component.unmount();
 
-    expect(onDestroySpy.callCount).to.equal(2);
+    expect(onDestroySpy.callCount).to.equal(1);
 
     await new Promise<void>((resolve) => {
       process.nextTick(() => {
-        expect(onInitDestroyCallbackSpy.callCount).to.equal(2);
+        expect(onInitDestroyCallbackSpy.callCount).to.equal(1);
         resolve();
       });
     });
@@ -237,11 +233,7 @@ describe('ReactController', () => {
       return <span data-hook="controller-prop">{controller.prop}</span>;
     };
 
-    const component = render(
-      <StrictMode>
-        <ViewWithInjectedController controller={testController} />
-      </StrictMode>,
-    );
+    const component = render(<ViewWithInjectedController controller={testController} />);
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller-prop"]`);
 

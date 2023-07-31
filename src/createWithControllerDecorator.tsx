@@ -1,6 +1,6 @@
 import React from 'react';
 import hostNonReactStatics from 'hoist-non-react-statics';
-import {createHookWithContext} from './createHookWithContext';
+import {type createHookWithContext} from './createHookWithContext';
 
 export const createWithControllerDecorator = (controllerHook: ReturnType<typeof createHookWithContext>) => {
   return function withController(ControllerClass: any): any {

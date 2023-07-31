@@ -1,5 +1,5 @@
-import {Context, ReactNode, useContext, useEffect, useRef} from 'react';
-import {ReactControllerWithoutPrivateFields} from './ReactController';
+import {type Context, type ReactNode, useContext, useEffect, useRef} from 'react';
+import {type ReactControllerWithoutPrivateFields} from './ReactController';
 import {useRunOnce} from './useRunOnce';
 
 type Newable = new (...args: any[]) => any;
@@ -13,7 +13,7 @@ export const createHookWithContext = <S extends Context<any>>({
   updateWrapper,
 }: {
   ctx: S;
-  updateWrapper?: Function;
+  updateWrapper?: (updater: () => void) => void;
 }) => {
   const isThenable = (value: unknown): value is Promise<(() => void) | undefined> => {
     return typeof value === 'object' && value !== null && 'then' in value && typeof value.then === 'function';

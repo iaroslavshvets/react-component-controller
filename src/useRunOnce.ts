@@ -1,6 +1,6 @@
 import {useRef} from 'react';
 
-export const useRunOnce = (callback: Function) => {
+export const useRunOnce = (callback: () => void) => {
   const wasCalledRef = useRef<boolean>(false);
   if (!wasCalledRef.current) {
     callback();
