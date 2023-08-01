@@ -42,7 +42,10 @@ export const createHookWithContext = <S extends Context<any>>({
       }
 
       controllerRef.current = controller;
-      onInitResultRef.current = controller.onInit();
+
+      if (typeof controller.onInit === 'function') {
+        onInitResultRef.current = controller.onInit();
+      }
     });
 
     useEffect(
