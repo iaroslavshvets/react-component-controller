@@ -57,7 +57,9 @@ export const createHookWithContext = <S extends Context<any>>({
               }
             });
           }
-          controllerRef.current!.onDestroy();
+          if (typeof controllerRef.current!.onDestroy === 'function') {
+            controllerRef.current!.onDestroy();
+          }
         };
       },
       [],
