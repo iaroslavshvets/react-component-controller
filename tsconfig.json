@@ -27,10 +27,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist/es",
-    "rootDir": "src"
+    "rootDir": "."
   },
-  "include": [
-    "./src/**/*"
-  ],
   "compileOnSave": false
 }

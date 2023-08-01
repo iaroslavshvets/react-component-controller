@@ -28,7 +28,7 @@ module.exports = {
       },
     ],
   },
-  testRegex: '/src/.*\\.spec\\.(ts|tsx)$',
+  testRegex: '/__tests__/.*\\.spec\\.(ts|tsx)$',
   moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
   preset: 'ts-jest',
   testMatch: null,

@@ -1,13 +1,11 @@
-export interface Context {
-  [key: string]: any;
-}
+export type Context = Record<string, any>;
 
 export type NonViewAccessibleFields = 'onInit' | 'onDestroy' | 'props' | 'ctx';
 
 export type ReactControllerWithoutPrivateFields<T> = Omit<T, NonViewAccessibleFields>;
 
-export abstract class ReactController<S extends Context = {}, P extends Object = never> {
-  readonly ctx: S = undefined as any;
+export abstract class ReactController<C extends Context = object, P extends object = never> {
+  readonly ctx: C = undefined as any;
 
   readonly props: P = undefined as any;
 
@@ -21,12 +19,8 @@ export abstract class ReactController<S extends Context = {}, P extends Object =
     return undefined;
   }
 
-  constructor(ctx?: S, props?: P) {
-    if (ctx) {
-      this.ctx = ctx;
-    }
-    if (props) {
-      this.props = props;
-    }
+  constructor(ctx?: C, props?: P) {
+    this.ctx = ctx as C;
+    this.props = props as P;
   }
 }
