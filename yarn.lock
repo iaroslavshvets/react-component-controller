@@ -1396,9 +1396,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:^20.4.5":
-  version: 20.6.2
-  resolution: "@types/node@npm:20.6.2"
-  checksum: e490a743f97779797e1cccb2cba9eb7b753c376a401e88fd3ba9b999e0e8f9851417f250639663e42e5d068f885b650972f8edbd9a3175c2f7b14e4ef206479c
+  version: 20.7.0
+  resolution: "@types/node@npm:20.7.0"
+  checksum: 935c8a30e3dbb9d10151316522571c7dacd8277a66db821a0581a9ff18c23d780c3e155437b72399b70a081616bcd87c3d745565527df721acf2a0577ccf906c
   languageName: node
   linkType: hard
 
