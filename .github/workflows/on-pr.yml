@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 20.11.1
 
+      - run: npm install npm@9.9.3 -g
       - run: npm install --verbose
       - run: npm run build
       - run: npm run test:ci-coverage
