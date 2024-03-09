@@ -8504,11 +8504,11 @@ __metadata:
 
 "typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>, typescript@patch:typescript@^5.4.2#~builtin<compat/typescript>":
   version: 5.4.2
-  resolution: "typescript@patch:typescript@npm%3A5.4.2%3A%3A__archiveUrl=https%253A%252F%252Fnpm.dev.wixpress.com%252Fapi%252Fnpm%252Fnpm-repos%252Ftypescript%252F-%252Ftypescript-5.4.2.tgz#~builtin<compat/typescript>::version=5.4.2&hash=14eedb"
+  resolution: "typescript@patch:typescript@npm%3A5.4.2%3A%3A__archiveUrl=https%253A%252F%252Fnpm.dev.wixpress.com%252Fapi%252Fnpm%252Fnpm-repos%252Ftypescript%252F-%252Ftypescript-5.4.2.tgz#~builtin<compat/typescript>::version=5.4.2&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 22e2f213c3ffe5960c5eaec6c95c04e01858fed57a94be250746f540b935b2c18c3c3fc80d3ab65d28c0aba1eb76284557ba3bf521d28caee811c44ba2b648f9
+  checksum: fcf6658073d07283910d9a0e04b1d5d0ebc822c04dbb7abdd74c3151c7aa92fcddbac7d799404e358197222006ccdc4c0db219d223d2ee4ccd9e2b01333b49be
   languageName: node
   linkType: hard
 

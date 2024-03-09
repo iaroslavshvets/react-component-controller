@@ -77,5 +77,6 @@
   "peerDependencies": {
     "react": "*",
     "react-dom": "*"
-  }
+  },
+  "packageManager": "yarn@3.8.1"
 }
