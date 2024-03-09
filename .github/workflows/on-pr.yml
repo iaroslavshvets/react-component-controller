@@ -14,14 +14,14 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        uses: sergioramos/yarn-actions@v6
+        uses: DerYeger/yarn-setup-action@v1.0.1
         with:
           cmd: install
       - name: Build library
-        uses: sergioramos/yarn-actions@v6
+        uses: DerYeger/yarn-setup-action@v1.0.1
         with:
           cmd: build
       - name: Test library
-        uses: sergioramos/yarn-actions@v6
+        uses: DerYeger/yarn-setup-action@v1.0.1
         with:
           cmd: test:ci-coverage
