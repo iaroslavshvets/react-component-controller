@@ -16,6 +16,6 @@ jobs:
         with:
           node-version: 20.11.1
 
-      - run: yarn
+      - run: yarn --verbose
       - run: yarn build
       - run: yarn test:ci-coverage
