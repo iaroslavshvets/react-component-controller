@@ -22,7 +22,9 @@ export default {
     }
   ],
   plugins: [
-    typescript(),
+    typescript({
+      outputToFilesystem: true,
+    }),
     resolve(),
     commonJS(),
     size(),
