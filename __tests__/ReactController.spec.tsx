@@ -1,5 +1,3 @@
-import {expect} from 'chai';
-import Sinon, {type SinonSpy} from 'sinon';
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
 import {createHookWithContext} from '../src/createHookWithContext';
@@ -9,7 +7,6 @@ import {type UseController, type WithController} from '../src/types';
 import {createWithControllerDecorator} from '../src';
 
 describe('ReactController', () => {
-  let sinon: Sinon.SinonSandbox;
   const expectTypescriptError = (a: () => unknown) => {
     try {
       a();
@@ -17,11 +14,6 @@ describe('ReactController', () => {
       /* empty */
     }
   };
-
-  beforeEach(() => {
-    sinon = Sinon.createSandbox();
-  });
-  afterEach(() => sinon.restore());
 
   it('should prevent using untyped props', () => {
     // @ts-expect-error - class defined for testing typings only
@@ -40,7 +32,7 @@ describe('ReactController', () => {
         service: object;
       }
 
-      const someMethodSpy = sinon.spy();
+      const someMethodSpy = jest.fn();
       const context: Context = {service: {}};
 
       class Controller extends ReactController<Context> {
@@ -55,15 +47,15 @@ describe('ReactController', () => {
       const controller = createReactController(Controller, context);
       controller.someMethod();
 
-      expect(someMethodSpy.called).to.be.true;
+      expect(someMethodSpy).toBeCalled();
     });
     it('with props', () => {
       interface Context {
         service: object;
       }
 
-      const onInitSpy = sinon.spy();
-      const someMethodSpy = sinon.spy();
+      const onInitSpy = jest.fn();
+      const someMethodSpy = jest.fn();
       const context: Context = {service: {}};
 
       class Controller extends ReactController<Context, {prop: number}> {
@@ -81,10 +73,10 @@ describe('ReactController', () => {
 
       controller.someMethod();
 
-      expect(onInitSpy.called).to.be.false;
-      expect(someMethodSpy.called).to.be.true;
-      expect((controller as any).ctx.service).to.be.eql({});
-      expect((controller as any).props.prop).to.be.eql(1);
+      expect(onInitSpy).toBeCalledTimes(0);
+      expect(someMethodSpy).toBeCalled();
+      expect((controller as any).ctx.service).toEqual({});
+      expect((controller as any).props.prop).toBe(1);
     });
   });
 
@@ -93,7 +85,7 @@ describe('ReactController', () => {
     const useController = createHookWithContext({ctx: Context});
     const withController = createWithControllerDecorator(useController);
 
-    const testViewCallback = sinon.spy();
+    const testViewCallback = jest.fn();
 
     type TestViewProps = WithController<TestController> & {
       callback: () => void;
@@ -120,18 +112,18 @@ describe('ReactController', () => {
     const element = component.baseElement;
     const propElement = element.querySelector(`[data-hook="prop"]`);
 
-    expect(propElement?.innerHTML).to.equal('controllerPropValue');
-    expect(testViewCallback.callCount).to.equal(1);
+    expect(propElement?.innerHTML).toBe('controllerPropValue');
+    expect(testViewCallback).toBeCalledTimes(1);
   });
 
   it('should render React functional component with props', async () => {
-    const clickSpy = sinon.spy();
-    const onDestroySpy = sinon.spy();
-    const onInitDestroyCallbackSpy = sinon.spy();
-    const testViewPropSpy = sinon.spy();
+    const clickSpy = jest.fn();
+    const onDestroySpy = jest.fn();
+    const onInitDestroyCallbackSpy = jest.fn();
+    const testViewPropSpy = jest.fn();
 
     interface TestViwProps {
-      testProp: SinonSpy;
+      testProp: () => jest.SpyInstance;
       someOtherProp: () => string;
     }
 
@@ -189,12 +181,10 @@ describe('ReactController', () => {
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller"]`);
 
-    expect(testViewPropSpy.callCount).to.equal(1);
+    expect(testViewPropSpy).toBeCalledTimes(1);
 
-    expect(controllerElement && controllerElement.querySelector(`[data-hook="prop"]`)!.innerHTML).to.equal(
-      'test-property',
-    );
-    expect(controllerElement && controllerElement.querySelector(`[data-hook="re-mapped-prop"]`)!.innerHTML).to.equal(
+    expect(controllerElement && controllerElement.querySelector(`[data-hook="prop"]`)!.innerHTML).toBe('test-property');
+    expect(controllerElement && controllerElement.querySelector(`[data-hook="re-mapped-prop"]`)!.innerHTML).toBe(
       'someOtherValue',
     );
 
@@ -202,17 +192,17 @@ describe('ReactController', () => {
       fireEvent.click(controllerElement);
     }
 
-    expect(clickSpy.callCount).to.equal(1);
+    expect(clickSpy).toBeCalledTimes(1);
 
-    expect(onDestroySpy.callCount).to.equal(0);
+    expect(onDestroySpy).toBeCalledTimes(0);
 
     component.unmount();
 
-    expect(onDestroySpy.callCount).to.equal(1);
+    expect(onDestroySpy).toBeCalledTimes(1);
 
     await new Promise<void>((resolve) => {
       process.nextTick(() => {
-        expect(onInitDestroyCallbackSpy.callCount).to.equal(1);
+        expect(onInitDestroyCallbackSpy).toBeCalledTimes(1);
         resolve();
       });
     });
@@ -237,6 +227,6 @@ describe('ReactController', () => {
     const element = component.baseElement;
     const controllerElement = element.querySelector(`[data-hook="controller-prop"]`);
 
-    expect(controllerElement && controllerElement.innerHTML).to.equal('2');
+    expect(controllerElement && controllerElement.innerHTML).toBe('2');
   });
 });
